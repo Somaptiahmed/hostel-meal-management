@@ -1,0 +1,131 @@
+[
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a1",
+      "title": "Pancakes with Syrup",
+      "category": "breakfast",
+      "image": "https://i.ibb.co.com/1M3v14T/break1.jpg",
+      "rating": 4.5,
+      "price": 5.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a2",
+      "title": "Avocado Toast",
+      "category": "breakfast",
+      "image": "https://i.ibb.co.com/t81Yphz/break2.jpg",
+      "rating": 4.8,
+      "price": 6.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a3",
+      "title": "Omelette with Cheese",
+      "category": "breakfast",
+      "image": "https://i.ibb.co.com/6rNFQHT/break3.jpg",
+      "rating": 4.6,
+      "price": 4.49
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a4",
+      "title": "Berry Smoothie",
+      "category": "breakfast",
+      "image": "https://i.ibb.co.com/Lp53rVh/break4.jpg",
+      "rating": 4.7,
+      "price": 3.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a5",
+      "title": "Grilled Chicken Salad",
+      "category": "lunch",
+      "image": "https://i.ibb.co.com/R7V2kJy/lu1.jpg",
+      "rating": 4.4,
+      "price": 8.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a6",
+      "title": "Turkey Sandwich",
+      "category": "lunch",
+      "image": "https://i.ibb.co.com/vPcnCh4/lu2.jpg",
+      "rating": 4.3,
+      "price": 7.49
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a7",
+      "title": "Vegetable Wrap",
+      "category": "lunch",
+      "image": "https://i.ibb.co.com/qM4w8rD/lu3.jpg",
+      "rating": 4.2,
+      "price": 6.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a8",
+      "title": "Caesar Salad",
+      "category": "lunch",
+      "image": "https://i.ibb.co.com/VpkC9WL/lu4.jpg",
+      "rating": 4.5,
+      "price": 7.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1a9",
+      "title": "Spaghetti Bolognese",
+      "category": "dinner",
+      "image": "https://i.ibb.co.com/s2WnvXL/di1.jpg",
+      "rating": 4.8,
+      "price": 9.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1aa",
+      "title": "Grilled Salmon",
+      "category": "dinner",
+      "image": "https://i.ibb.co.com/0cQ2c2k/di2.jpg",
+      "rating": 4.7,
+      "price": 14.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1ab",
+      "title": "Steak with Vegetables",
+      "category": "dinner",
+      "image": "https://i.ibb.co.com/9vjKgsy/di3.jpg",
+      "rating": 4.9,
+      "price": 19.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1ac",
+      "title": "Vegetable Stir Fry",
+      "category": "dinner",
+      "image": "https://i.ibb.co.com/3d3N2pf/di4.jpg",
+      "rating": 4.5,
+      "price": 10.99
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1ad",
+      "title": "French Toast",
+      "category": "breakfast",
+      "image": "https://i.ibb.co.com/xMTNgFY/break5.jpg",
+      "rating": 4.7,
+      "price": 5.49
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1ae",
+      "title": "Chicken Burrito",
+      "category": "lunch",
+      "image": "https://i.ibb.co.com/Xpwy1VJ/lu5.jpg",
+      "rating": 4.6,
+      "price": 8.49
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1af",
+      "title": "Margherita Pizza",
+      "category": "dinner",
+      "image": "https://i.ibb.co.com/zFKMBjF/di5.jpg",
+      "rating": 4.6,
+      "price": 11.49
+    },
+    {
+      "id": "64b8a7c89d4c8c29f6a8b1b0",
+      "title": "Fruit Parfait",
+      "category": "breakfast",
+      "image": "https://i.ibb.co.com/xCK5jM2/break6.webp",
+      "rating": 4.8,
+      "price": 4.99
+    }
+  ]
+  
