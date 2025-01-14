@@ -77,7 +77,7 @@ const AllMeals = () => {
       <h3 className="meal-title text-2xl font-semibold mb-2">{meal.title}</h3>
       <p className="meal-rating text-sm text-gray-500">Rating: {meal.rating}</p>
       <p className="meal-price text-xl font-bold text-green-600 mb-4">${meal.price}</p>
-      <Link to={`/meal/${meal._id}`} className="details-button bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors duration-300">
+      <Link to={`/meal-details/${meal._id}`} className="details-button bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors duration-300">
         Details
       </Link>
     </div>
