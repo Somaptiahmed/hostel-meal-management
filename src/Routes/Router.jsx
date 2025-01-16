@@ -7,6 +7,8 @@ import Checkout from "../Pages/Checkout";
 import JoinUs from "../Pages/JoinUs";
 import Register from "../Pages/Register";
 import AuthLayout from "../AuthLayou/AuthLayout";
+import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../Components/Dashboard";
 
 export const router = createBrowserRouter([
     {
@@ -23,11 +25,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'meal-details/:id',
-                element: <MealDetails></MealDetails>,
+                element: <PrivateRoute><MealDetails></MealDetails></PrivateRoute>,
             },
             {
                 path: 'checkout/:package_name',
-                element: <Checkout></Checkout>,
+                element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
+            },
+            {
+                path: 'dashboard',
+                element: <Dashboard></Dashboard>,
             },
 
             

@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+
+import React, { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../Provider/AuthProvider";
+
 
 const MealDetails = () => {
   const { id } = useParams(); // Get the meal ID from the URL
+  const { userDetails } = useContext(AuthContext); // Access user details from context
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [likeCount, setLikeCount] = useState(0);
+  const [requestCount, setRequestCount] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [reviewText, setReviewText] = useState('');
-  const [user, setUser] = useState(null); // Mock user for login state
+  const [reviewText, setReviewText] = useState("");
+  const [hasLiked, setHasLiked] = useState(false); // Track if user has already liked
 
   useEffect(() => {
     // Fetch meal details
@@ -18,9 +23,10 @@ const MealDetails = () => {
         const data = await response.json();
         setMeal(data);
         setLikeCount(data.likes || 0); // Initialize like count
+        setRequestCount(data.mealRequestCount || 0); // Initialize request count
         setReviews(data.reviews || []); // Initialize reviews
       } catch (error) {
-        console.error('Error fetching meal details:', error);
+        console.error("Error fetching meal details:", error);
       } finally {
         setLoading(false);
       }
@@ -30,71 +36,109 @@ const MealDetails = () => {
   }, [id]);
 
   const handleLike = async () => {
-    if (!user) {
-      alert('You need to log in to like this meal.');
-      return;
-    }
-
     try {
       const response = await fetch(`http://localhost:5000/menu/${id}/like`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (response.ok) {
         setLikeCount((prev) => prev + 1); // Update like count on client
+        setHasLiked(true); // Disable like button
+      } else {
+        console.error("Failed to like meal");
       }
     } catch (error) {
-      console.error('Error liking the meal:', error);
+      console.error("Error liking the meal:", error);
     }
   };
 
-  const handleMealRequest = async () => {
-    if (!user) {
-      alert('You need to log in to request this meal.');
-      return;
-    }
+  // const handleMealRequest = async () => {
+  //   if (!userDetails) {
+  //     console.error("User not logged in");
+  //     return; // Prevent submitting if the user is not logged in
+  //   }
 
+  //   try {
+  //     const response = await fetch("http://localhost:5000/meal-request", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         mealId: id,
+  //         status: "pending",
+  //         userName: userDetails.displayName || "Anonymous", // Use dynamic user data
+  //         userEmail: userDetails.email || "anonymous@example.com", // Use dynamic user email
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       setRequestCount((prev) => prev + 1); // Update request count on client
+  //     } else {
+  //       console.error("Failed to request meal");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error requesting the meal:", error);
+  //   }
+  // };
+  const handleMealRequest = async () => {
+    if (!userDetails) {
+      console.error("User not logged in");
+      return; // Prevent submitting if the user is not logged in
+    }
+  
+    console.log("User Details:", userDetails);  // Debugging log to check if email exists
+  
     try {
-      const response = await fetch('http://localhost:5000/meal-request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/meal-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           mealId: id,
-          userId: user.id,
-          status: 'pending',
+          status: "pending",
+          userName: userDetails.displayName || "Anonymous", // Use dynamic user data
+          userEmail: userDetails.email || "anonymous@example.com", // Use dynamic user email
         }),
       });
-
+  
       if (response.ok) {
-        alert('Meal request submitted successfully!');
+        setRequestCount((prev) => prev + 1); // Update request count on client
+      } else {
+        console.error("Failed to request meal");
       }
     } catch (error) {
-      console.error('Error requesting meal:', error);
+      console.error("Error requesting the meal:", error);
     }
   };
-
+  
+  
   const handleReviewSubmit = async () => {
-    if (!user) {
-      alert('You need to log in to post a review.');
-      return;
+    if (!reviewText.trim()) return;
+
+    if (!userDetails) {
+      console.error("User not logged in");
+      return; // Prevent submitting if the user is not logged in
     }
 
-    const newReview = { text: reviewText, user: user.name };
+    const newReview = {
+      text: reviewText,
+      user: userDetails.displayName || "Anonymous", // Use dynamic user data
+    };
 
     try {
       const response = await fetch(`http://localhost:5000/menu/${id}/review`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),
       });
 
       if (response.ok) {
         setReviews((prev) => [...prev, newReview]); // Update reviews on client
-        setReviewText(''); // Clear the review input
+        setReviewText(""); // Clear the review input
+      } else {
+        console.error("Failed to submit review");
       }
     } catch (error) {
-      console.error('Error posting review:', error);
+      console.error("Error posting review:", error);
     }
   };
 
@@ -103,28 +147,38 @@ const MealDetails = () => {
 
   return (
     <div className="meal-details p-5 bg-gray-100 rounded-lg w-9/12 mx-auto">
-      <img src={meal.image} alt={meal.title} className="w-full h-[500px] object-cover rounded-md" />
+      <img
+        src={meal.image}
+        alt={meal.title}
+        className="w-full h-[500px] object-cover rounded-md"
+      />
       <h1 className="text-3xl font-bold mt-4">{meal.title}</h1>
-      <p className="text-gray-700 mt-2">Distributor: {meal.distributor || 'Unknown'}</p>
-      <p className="text-gray-700 font-semibold mt-2">{meal.description}</p>
-      <p className="text-gray-700 font-semibold mt-2">
-        Ingredients: {meal.ingredients ? meal.ingredients.join(', ') : 'N/A'}
+      <p className="text-gray-700 mt-2">
+        Distributor: {meal.distributor || "Unknown"}
       </p>
-      <p className="text-gray-700 mt-2">Posted: {meal.postTime || 'N/A'}</p>
+      <p className="text-gray-700 font-semibold mt-2">
+        {meal.description || "No description available"}
+      </p>
+      <p className="text-gray-700 font-semibold mt-2">
+        Ingredients:{" "}
+        {meal.ingredients ? meal.ingredients.join(", ") : "N/A"}
+      </p>
+      <p className="text-gray-700 mt-2">Posted: {meal.postTime || "N/A"}</p>
       <p className="text-gray-700 mt-2">Rating: {meal.rating}</p>
 
       <div className="flex items-center gap-4 mt-5">
         <button
           onClick={handleLike}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          disabled={hasLiked} // Disable button after first click
         >
-          Like ({likeCount})
+          {hasLiked ? `Liked (${likeCount})` : `Like (${likeCount})`}
         </button>
         <button
           onClick={handleMealRequest}
           className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
         >
-          Request Meal
+          Request Meal ({requestCount})
         </button>
       </div>
 
@@ -132,7 +186,10 @@ const MealDetails = () => {
         <h2 className="text-2xl font-bold mb-4">Reviews ({reviews.length})</h2>
         <ul>
           {reviews.map((review, index) => (
-            <li key={index} className="p-3 bg-white rounded-md mb-2 shadow-sm">
+            <li
+              key={index}
+              className="p-3 bg-white rounded-md mb-2 shadow-sm"
+            >
               <p className="text-gray-800">{review.text}</p>
               <p className="text-gray-500 text-sm">- {review.user}</p>
             </li>
@@ -157,4 +214,3 @@ const MealDetails = () => {
 };
 
 export default MealDetails;
-

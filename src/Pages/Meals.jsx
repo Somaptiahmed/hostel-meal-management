@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 
+
 const Meals = () => {
   const [meals, setMeals] = useState([]);
   const [hasMore, setHasMore] = useState(true);

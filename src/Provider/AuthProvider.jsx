@@ -1,55 +1,4 @@
-// import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-// import { createContext, useEffect, useState } from "react";
-// import app from "../firebase/firebase.config";
 
-// export const AuthContext = createContext(null);
-// const auth = getAuth(app);
-// const AuthProvider = ({children}) => {
-//     const [user, setUser] = useState(null);
-//     const [loading, setLoading] = useState(true);
-    
-//     const createUser = (email, password) => {
-//         setLoading(true);
-//         return createUserWithEmailAndPassword(auth, email, password)
-//     }
-//     const login = (email, password) => {
-//         setLoading(true);
-//         return signInWithEmailAndPassword(auth, email, password);
-//     }
-
-//     const logOut = () => {
-//         setLoading(true);
-//         return signOut(auth);
-//     }
-    
-//     useEffect(() => {
-//        const unsubscribe = onAuthStateChanged(auth, currentUser => {
-//             setUser(currentUser);
-//             console.log(currentUser);
-//             setLoading(false);
-//         });
-//         return () => {
-//             return unsubscribe;
-//         }
-
-//     }, [])
-//     const authInfo = {
-//         user,
-//         loading,
-//         createUser,
-//         login,   
-//         logOut 
-
-
-//     }
-//     return (
-//         <AuthContext.Provider value={authInfo}>
-//             {children}
-//         </AuthContext.Provider>
-//     );
-// };
-
-// export default AuthProvider;
 
 import React, { createContext, useEffect, useState } from "react";
 import {
@@ -68,7 +17,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Stores the logged-in user's details
   const [loading, setLoading] = useState(true); // Tracks loading state
-  const [userDetails, setUserDetails] = useState(null); // Custom user details like profile picture, name
+  const [userDetails, setUserDetails] = useState(null); // Custom user details like profile picture, name, email
 
   // Create a new user with email and password
   const createUser = (email, password) => {
@@ -88,24 +37,24 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // Track auth state changes
+  // Track auth state changes and update userDetails
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        // Populate userDetails with additional properties (e.g., displayName)
+        console.log("Authenticated User:", currentUser);
         setUserDetails({
           displayName: currentUser.displayName || "User",
-          profilePicture:
-            currentUser.photoURL ||
-            "https://via.placeholder.com/150", // Default profile picture
+          email: currentUser.email || "",
+          profilePicture: currentUser.photoURL || "https://via.placeholder.com/150",
         });
       } else {
+        console.log("No user signed in");
         setUserDetails(null);
       }
       setLoading(false);
     });
-
+  
     return () => {
       unsubscribe();
     };
@@ -130,3 +79,4 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
+

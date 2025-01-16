@@ -1,4 +1,5 @@
 
+
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,6 +33,7 @@ const Register = () => {
           const loggedUser = result.user;
           setUserDetails({
             displayName: name,
+            email, // Set email here as well
             profilePicture,
           });
           console.log("User created successfully:", loggedUser);
@@ -134,9 +136,7 @@ const Register = () => {
               • At least one number
             </p>
             <p
-              className={
-                /[@$!%*?&]/.test(password) ? "text-green-500" : "text-red-500"
-              }
+              className={/[@$!%*?&]/.test(password) ? "text-green-500" : "text-red-500"}
             >
               • At least one special character (@, $, !, %, *, ?, &)
             </p>
@@ -180,3 +180,6 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
