@@ -9,6 +9,10 @@ import Register from "../Pages/Register";
 import AuthLayout from "../AuthLayou/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Components/Dashboard";
+import MyProfile from "../Components/MyProfile";
+import MyReviews from "../Components/MyReviews";
+import PaymentHistory from "../Components/PaymentHistory";
+import RequestedMeals from "../Components/RequestedMeals";
 
 export const router = createBrowserRouter([
     {
@@ -31,15 +35,7 @@ export const router = createBrowserRouter([
                 path: 'checkout/:package_name',
                 element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
             },
-            {
-                path: 'dashboard',
-                element: <Dashboard></Dashboard>,
-            },
-
-            
-            
-
-        ]
+           ]
        
     },
     {
@@ -54,6 +50,29 @@ export const router = createBrowserRouter([
                 path: 'register',
                 element: <Register></Register>,
             },
+        ]
+    },
+    {
+        path: 'dashboard',
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+        children: [
+            {
+                path: "myProfile",
+                element: <MyProfile></MyProfile>
+            },
+            {
+                path: "myReview",
+                element: <MyReviews></MyReviews>
+            },
+            {
+                path: "payment",
+                element: <PaymentHistory></PaymentHistory>
+            },
+            {
+                path: "requestedMeals",
+                element: <RequestedMeals></RequestedMeals>
+            },
+
         ]
     },
 ]);

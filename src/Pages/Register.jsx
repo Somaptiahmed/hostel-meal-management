@@ -45,7 +45,10 @@ const Register = () => {
     };
     reader.readAsDataURL(file); // Read the image file
   };
+ 
+  
 
+  
   return (
     <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-20">
       <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
@@ -180,6 +183,4 @@ const Register = () => {
 };
 
 export default Register;
-
-
 
