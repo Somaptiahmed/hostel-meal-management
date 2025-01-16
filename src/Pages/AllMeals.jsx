@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import useMenu from '../hooks/Usemenu';
 
 // Main component
 const AllMeals = () => {
+  const [mealsData] = useMenu();
   const [selectedCategory, setSelectedCategory] = useState('all'); // Default to "All Meals"
-  const [mealsData, setMealsData] = useState([]); // Store fetched meals data
-  const [loading, setLoading] = useState(true); // Loading state
+  // const [mealsData, setMealsData] = useState([]); // Store fetched meals data
+  // const [loading, setLoading] = useState(true); // Loading state
 
-  // Fetch meals data from API
-  useEffect(() => {
-    const fetchMeals = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/menu'); // Backend URL
-        const data = await response.json();
-        setMealsData(data); // Set the fetched data to state
-      } catch (error) {
-        console.error("Error fetching meals data:", error);
-      } finally {
-        setLoading(false); // Set loading to false once data is fetched
-      }
-    };
+  // // Fetch meals data from API
+  // useEffect(() => {
+  //   const fetchMeals = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:5000/menu'); // Backend URL
+  //       const data = await response.json();
+  //       setMealsData(data); // Set the fetched data to state
+  //     } catch (error) {
+  //       console.error("Error fetching meals data:", error);
+  //     } finally {
+  //       setLoading(false); // Set loading to false once data is fetched
+  //     }
+  //   };
 
-    fetchMeals(); // Call the function on component mount
-  }, []);
+  //   fetchMeals(); // Call the function on component mount
+  // }, []);
 
   // Handle category change (All, Breakfast, Lunch, Dinner)
   const handleCategoryChange = (category) => {
@@ -34,9 +36,9 @@ const AllMeals = () => {
     ? mealsData
     : mealsData.filter(meal => meal.category === selectedCategory);
 
-  if (loading) {
-    return <div>Loading...</div>; // Show a loading state until data is fetched
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>; // Show a loading state until data is fetched
+  // }
 
   return (
     <div className="meal-tabs">

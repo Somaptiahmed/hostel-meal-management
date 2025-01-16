@@ -6,7 +6,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { toast } from 'react-toastify';
 
-const stripePromise = loadStripe('YOUR_STRIPE_PUBLIC_KEY'); // Replace with your Stripe public key
+const stripePromise = loadStripe('pk_test_51QhFLJCQ06ocEdmf3HBk37iVhQsRmPUGTHg62ITPICBbn1AMDACvDB2v3tRTvC1bOBGsx4b91DGUefcvlpzinS3K005GJTV7hR'); // Replace with your Stripe public key
 
 const Checkout = () => {
   const { packageId } = useParams(); // Access the packageId from the URL
@@ -102,10 +102,15 @@ const Checkout = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className='p-4 mt-10'>
       <h2>Checkout for {packageDetails.name}</h2>
       <p>Package Description: {packageDetails.description}</p>
       <p>Price: ${packageDetails.price}</p>
+      <div>
+      <Elements stripe={stripePromise}>
+      <Checkout />
+    </Elements>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <CardElement />
@@ -127,3 +132,5 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
+

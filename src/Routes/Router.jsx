@@ -4,6 +4,9 @@ import Home from "../Pages/Home";
 import MealDetails from "../Pages/MealDetails";
 import Meals from "../Pages/Meals";
 import Checkout from "../Pages/Checkout";
+import JoinUs from "../Pages/JoinUs";
+import Register from "../Pages/Register";
+import AuthLayout from "../AuthLayou/AuthLayout";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +30,24 @@ export const router = createBrowserRouter([
                 element: <Checkout></Checkout>,
             },
 
+            
+            
+
+        ]
+       
+    },
+    {
+        path: 'auth',
+        element: <AuthLayout></AuthLayout>,
+        children: [
+            {
+                path: 'joinUs',
+                element: <JoinUs></JoinUs>,
+            },
+            {
+                path: 'register',
+                element: <Register></Register>,
+            },
         ]
     },
 ]);
