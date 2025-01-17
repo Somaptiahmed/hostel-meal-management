@@ -1,23 +1,55 @@
+// import { Elements } from '@stripe/react-stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
+// import React from 'react';
+// import Payment from './Payment';
+
+
+
+// const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY)
+// const Checkout = () => {
+//   return (
+//     <div className="my-24">
+  
+//   <div className='my-10'>
+//     <Elements stripe={stripePromise}>
+//       <Payment />
+//     </Elements>
+//   </div>
+// </div>
+
+//   );
+// };
+
+// export default Checkout;
+
+
+import { useLocation } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React from 'react';
 import Payment from './Payment';
 
+// Stripe publishable key
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY);
 
-const stripePromise = loadStripe(import.meta.env.VITE_Payment_key)
 const Checkout = () => {
-  return (
-    <div className="my-10">
-  <h2 className="mt-20 text-4xl font-bold text-center p-4 bg-gradient-to-r from-purple-500 via-blue-500 to-blue-800 text-transparent bg-clip-text shadow-lg">
-    Make Your Payment
-  </h2>
-  <div className='my-10'>
-    <Elements stripe={stripePromise}>
-      <Payment />
-    </Elements>
-  </div>
-</div>
+  // Access location state (the package name and price)
+  const location = useLocation();
+  const packageName = location.state?.name; // Use optional chaining in case state is not available
+  const price = location.state?.price;
 
+  return (
+    <div className="my-24">
+      <div className="my-10">
+        {/* Display the package name and price */}
+        
+
+        {/* Wrap Payment component with Elements provider */}
+        <Elements stripe={stripePromise}>
+          <Payment price={price} packageName={packageName} />
+        </Elements>
+      </div>
+    </div>
   );
 };
 

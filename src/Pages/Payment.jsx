@@ -1,82 +1,90 @@
+
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Payment = () => {
   const [error, setError] = useState("");
-  const [processing, setProcessing] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
-  const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
+  const [price, setPrice] = useState(0); // Store price dynamically
+  const [packageName, setPackageName] = useState(""); // Store package name dynamically
+
+  const location = useLocation(); // To access the package information passed from Membership
   const stripe = useStripe();
   const elements = useElements();
 
+  // Check if location.state exists
   useEffect(() => {
-    // Fetch the client secret from the backend on component mount
-    const fetchClientSecret = async () => {
-      try {
-        const response = await fetch("/create-payment-intent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ price: 50 }), // Replace 50 with the actual price
-        });
-        const data = await response.json();
-        setClientSecret(data.clientSecret);
-      } catch (error) {
-        console.error("Error fetching client secret:", error);
-        setError("Failed to initialize payment.");
-      }
-    };
-    fetchClientSecret();
-  }, []);
+    if (location.state) {
+      console.log("Location State:", location.state); // Debugging statement
+      setPackageName(location.state.name);
+      setPrice(location.state.price);
+
+      // Fetch the client secret using the price passed from the Membership page
+      const fetchClientSecret = async () => {
+        try {
+          const response = await fetch("http://localhost:5000/create-payment-intent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ price: location.state.price }), // Pass the price dynamically
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch client secret");
+          }
+
+          const data = await response.json();
+          if (data.clientSecret) {
+            setClientSecret(data.clientSecret);
+          } else {
+            setError("Invalid response from server");
+          }
+        } catch (error) {
+          console.error("Error fetching client secret:", error);
+          setError("Failed to initialize payment.");
+        }
+      };
+
+      fetchClientSecret();
+    } else {
+      setError("No payment package found");
+    }
+  }, [location.state]); // Re-run the effect if location.state changes
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      setError("Stripe is not initialized. Please try again.");
       return;
     }
 
     const card = elements.getElement(CardElement);
-    if (!card) {
-      setError("Card details are required.");
+
+    if (card === null) {
       return;
     }
 
-    try {
-      setProcessing(true);
-      setError("");
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card,
+    });
 
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card,
-      });
-
-      if (error) {
-        setError(error.message);
-        setProcessing(false);
-        return;
-      }
-
-      console.log("Payment Method:", paymentMethod);
-
-      // Simulating a backend API call
-      const paymentSuccess = true; // Replace with your actual API logic
-      if (paymentSuccess) {
-        setSuccess(true);
-        navigate('/');
-      }
-    } catch (err) {
-      setError("Payment failed. Please try again.");
-    } finally {
-      setProcessing(false);
+    if (error) {
+      console.log("payment error", error);
+      setError(error.message);
+    } else {
+      console.log("payment method", paymentMethod);
+      setError(""); // Reset the error if payment is successful
     }
   };
 
   return (
     <div className="w-9/12 mx-auto">
       <h2 className="text-2xl font-bold text-center mb-6">Complete Your Payment</h2>
+      {error && <p className="text-center text-red-500">{error}</p>} {/* Show error if it exists */}
+      <p className="text-center mb-4">{packageName}</p>
+      <p className="text-center mb-6">${price} / month</p>
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <CardElement
@@ -101,20 +109,18 @@ const Payment = () => {
         </div>
 
         <button
-          className={`btn btn-sm btn-primary w-full ${processing ? "bg-gray-400" : ""}`}
+          className="btn btn-sm btn-primary w-full"
           type="submit"
-          disabled={!stripe || processing}
+          disabled={!stripe || !clientSecret} // Disable if stripe or clientSecret is not ready
         >
-          {processing ? "Processing..." : "Pay Now"}
+          Pay
         </button>
-
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        {success && <p className="text-green-500 mt-2">Payment Successful!</p>}
       </form>
     </div>
   );
 };
 
 export default Payment;
+
 
 

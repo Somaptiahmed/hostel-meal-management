@@ -3,7 +3,7 @@ import Main from "../Layout/Main";
 import Home from "../Pages/Home";
 import MealDetails from "../Pages/MealDetails";
 import Meals from "../Pages/Meals";
-import Checkout from "../Pages/Checkout";
+
 import JoinUs from "../Pages/JoinUs";
 import Register from "../Pages/Register";
 import AuthLayout from "../AuthLayou/AuthLayout";
@@ -13,6 +13,8 @@ import MyProfile from "../Components/MyProfile";
 import MyReviews from "../Components/MyReviews";
 import PaymentHistory from "../Components/PaymentHistory";
 import RequestedMeals from "../Components/RequestedMeals";
+
+import Checkout from "../Pages/Checkout";
 
 export const router = createBrowserRouter([
     {
@@ -31,10 +33,16 @@ export const router = createBrowserRouter([
                 path: 'meal-details/:id',
                 element: <PrivateRoute><MealDetails></MealDetails></PrivateRoute>,
             },
+           
             {
                 path: 'checkout/:package_name',
-                element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
+                element: <Checkout></Checkout>,
             },
+            // {
+            //     path: 'checkout',
+            //     element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
+            // },
+            
            ]
        
     },

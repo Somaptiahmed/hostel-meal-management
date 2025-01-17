@@ -58,11 +58,31 @@ const MyReviews = () => {
       console.error("Error deleting review:", error);
     }
   };
-
-  // Handle edit review
-  const handleEdit = (reviewId) => {
-    navigate(`/edit-review/${reviewId}`);
+  const handleSubmitEdit = async () => {
+    if (!reviewText.trim()) {
+      console.error('Review text cannot be empty');
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:5000/meal-review/${reviewId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewText }),
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Review updated successfully');
+        // Redirect or update state
+      } else {
+        console.error('Failed to update review:', data.error);
+      }
+    } catch (error) {
+      console.error('Error updating review:', error);
+    }
   };
+  
 
   // Handle viewing the meal associated with the review
   const handleViewMeal = (mealId) => {
@@ -101,7 +121,7 @@ const MyReviews = () => {
                     View Meal
                   </button>
                   <button
-                    onClick={() => handleEdit(review._id)}
+                    onClick={() => handleSubmitEdit(review._id)}
                     className="bg-yellow-500 text-white px-4 py-2 rounded-md"
                   >
                     Edit
@@ -123,3 +143,6 @@ const MyReviews = () => {
 };
 
 export default MyReviews;
+
+
+
