@@ -41,17 +41,25 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+  
       if (currentUser) {
         console.log("Authenticated User:", currentUser);
-        setUserDetails({
-          displayName: currentUser.displayName || "User",
-          email: currentUser.email || "",
-          profilePicture: currentUser.photoURL || "https://via.placeholder.com/150",
-        });
+  
+        // Get user details from localStorage
+        const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
+        setUserDetails(
+          savedUserDetails || {
+            displayName: currentUser.displayName || "User",
+            email: currentUser.email || "",
+            profilePicture: currentUser.photoURL || "https://via.placeholder.com/150",
+          }
+        );
       } else {
         console.log("No user signed in");
         setUserDetails(null);
+        localStorage.removeItem("userDetails"); // Clear localStorage if no user is signed in
       }
+  
       setLoading(false);
     });
   
@@ -59,6 +67,7 @@ const AuthProvider = ({ children }) => {
       unsubscribe();
     };
   }, []);
+  
 
   // Auth info to be provided throughout the app
   const authInfo = {

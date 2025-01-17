@@ -17,25 +17,34 @@ const Register = () => {
 
   const onSubmit = (data) => {
     const { email, password, name, image } = data;
-
+  
     // Validate the image file
     const file = image[0];
     if (!file || !file.type.startsWith("image/")) {
       alert("Please upload a valid image file.");
       return;
     }
-
+  
     const reader = new FileReader();
     reader.onloadend = () => {
       const profilePicture = reader.result; // Base64 image string
       createUser(email, password)
         .then((result) => {
           const loggedUser = result.user;
+  
+          // Save user details to AuthContext
           setUserDetails({
             displayName: name,
-            email, // Set email here as well
+            email,
             profilePicture,
           });
+  
+          // Save user details to localStorage
+          localStorage.setItem(
+            "userDetails",
+            JSON.stringify({ displayName: name, email, profilePicture })
+          );
+  
           console.log("User created successfully:", loggedUser);
           navigate("/");
         })
@@ -43,8 +52,9 @@ const Register = () => {
           console.error("Error creating user:", error.message);
         });
     };
-    reader.readAsDataURL(file); // Read the image file
+    reader.readAsDataURL(file);
   };
+  
  
   
 

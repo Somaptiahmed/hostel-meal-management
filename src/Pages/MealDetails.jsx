@@ -3,48 +3,100 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
-
 const MealDetails = () => {
   const { id } = useParams(); // Get the meal ID from the URL
   const { userDetails } = useContext(AuthContext); // Access user details from context
+
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [likeCount, setLikeCount] = useState(0);
   const [requestCount, setRequestCount] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
-  const [hasLiked, setHasLiked] = useState(false); // Track if user has already liked
+  const [hasLiked, setHasLiked] = useState(false);
+
+  // Fetch meal details on component mount
+  // useEffect(() => {
+  //   const fetchMeal = async () => {
+  //     try {
+  //       const response = await fetch(`http://localhost:5000/menu/${id}`);
+  //       const data = await response.json();
+
+  //       setMeal(data);
+  //       setLikeCount(data.likes || 0); // Initialize like count
+  //       setRequestCount(data.mealRequestCount || 0); // Initialize request count
+  //       setReviews(data.reviews || []); // Initialize reviews
+  //     } catch (error) {
+  //       console.error("Error fetching meal details:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchMeal();
+  // }, [id]);
 
   useEffect(() => {
-    // Fetch meal details
     const fetchMeal = async () => {
       try {
         const response = await fetch(`http://localhost:5000/menu/${id}`);
         const data = await response.json();
+  
         setMeal(data);
         setLikeCount(data.likes || 0); // Initialize like count
         setRequestCount(data.mealRequestCount || 0); // Initialize request count
         setReviews(data.reviews || []); // Initialize reviews
+  
+        // Check if the user has already liked the meal
+        const hasUserLiked = data.likes.some(like => like.userId === userDetails.uid);
+        setHasLiked(hasUserLiked); // Set the hasLiked state based on this check
+  
       } catch (error) {
         console.error("Error fetching meal details:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchMeal();
-  }, [id]);
+  }, [id, userDetails]);
+
+  // Handle like action
+  // const handleLike = async () => {
+  //   if (hasLiked) return; // Prevent multiple likes
+
+  //   try {
+  //     const response = await fetch(`http://localhost:5000/menu/${id}/like`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+  //     if (response.ok) {
+  //       setLikeCount((prev) => prev + 1); // Update like count
+  //       setHasLiked(true); // Mark as liked
+  //     } else {
+  //       console.error("Failed to like meal");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error liking the meal:", error);
+  //   }
+  // };
 
   const handleLike = async () => {
+    if (hasLiked) return; // Prevent multiple likes
+  
     try {
       const response = await fetch(`http://localhost:5000/menu/${id}/like`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userDetails.uid, // Pass the user ID to track which user liked
+        }),
       });
-
+  
       if (response.ok) {
-        setLikeCount((prev) => prev + 1); // Update like count on client
-        setHasLiked(true); // Disable like button
+        setLikeCount((prev) => prev + 1); // Update like count
+        setHasLiked(true); // Mark as liked (disables the button)
       } else {
         console.error("Failed to like meal");
       }
@@ -52,11 +104,24 @@ const MealDetails = () => {
       console.error("Error liking the meal:", error);
     }
   };
+  
 
+  // Fetch updated request count
+  const fetchUpdatedRequestCount = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/menu/${id}`);
+      const data = await response.json();
+      setRequestCount(data.mealRequestCount || 0);
+    } catch (error) {
+      console.error("Error fetching updated request count:", error);
+    }
+  };
+
+  // Handle meal request
   // const handleMealRequest = async () => {
   //   if (!userDetails) {
   //     console.error("User not logged in");
-  //     return; // Prevent submitting if the user is not logged in
+  //     return;
   //   }
 
   //   try {
@@ -66,13 +131,13 @@ const MealDetails = () => {
   //       body: JSON.stringify({
   //         mealId: id,
   //         status: "pending",
-  //         userName: userDetails.displayName || "Anonymous", // Use dynamic user data
-  //         userEmail: userDetails.email || "anonymous@example.com", // Use dynamic user email
+  //         userName: userDetails.displayName || "Anonymous",
+  //         userEmail: userDetails.email || "anonymous@example.com",
   //       }),
   //     });
 
   //     if (response.ok) {
-  //       setRequestCount((prev) => prev + 1); // Update request count on client
+  //       await fetchUpdatedRequestCount(); // Update request count
   //     } else {
   //       console.error("Failed to request meal");
   //     }
@@ -80,48 +145,50 @@ const MealDetails = () => {
   //     console.error("Error requesting the meal:", error);
   //   }
   // };
-  const handleMealRequest = async () => {
-    if (!userDetails) {
-      console.error("User not logged in");
-      return; // Prevent submitting if the user is not logged in
+
+  // Handle meal request
+const handleMealRequest = async () => {
+  if (!userDetails) {
+    console.error("User not logged in");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:5000/meal-request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mealId: id,
+        status: "pending",
+        userName: userDetails.displayName || "Anonymous",
+        userEmail: userDetails.email || "anonymous@example.com",
+      }),
+    });
+
+    if (response.ok) {
+      // Instead of fetching the request count again, increment it locally
+      setRequestCount((prev) => prev + 1); // Increment request count
+    } else {
+      console.error("Failed to request meal");
     }
-  
-    console.log("User Details:", userDetails);  // Debugging log to check if email exists
-  
-    try {
-      const response = await fetch("http://localhost:5000/meal-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          mealId: id,
-          status: "pending",
-          userName: userDetails.displayName || "Anonymous", // Use dynamic user data
-          userEmail: userDetails.email || "anonymous@example.com", // Use dynamic user email
-        }),
-      });
-  
-      if (response.ok) {
-        setRequestCount((prev) => prev + 1); // Update request count on client
-      } else {
-        console.error("Failed to request meal");
-      }
-    } catch (error) {
-      console.error("Error requesting the meal:", error);
-    }
-  };
-  
-  
+  } catch (error) {
+    console.error("Error requesting the meal:", error);
+  }
+};
+
+
+  // Handle review submission
   const handleReviewSubmit = async () => {
     if (!reviewText.trim()) return;
 
     if (!userDetails) {
       console.error("User not logged in");
-      return; // Prevent submitting if the user is not logged in
+      return;
     }
 
     const newReview = {
       text: reviewText,
-      user: userDetails.displayName || "Anonymous", // Use dynamic user data
+      user: userDetails.displayName || "Anonymous",
     };
 
     try {
@@ -132,8 +199,8 @@ const MealDetails = () => {
       });
 
       if (response.ok) {
-        setReviews((prev) => [...prev, newReview]); // Update reviews on client
-        setReviewText(""); // Clear the review input
+        setReviews((prev) => [...prev, newReview]); // Add new review locally
+        setReviewText(""); // Clear input
       } else {
         console.error("Failed to submit review");
       }
@@ -160,8 +227,7 @@ const MealDetails = () => {
         {meal.description || "No description available"}
       </p>
       <p className="text-gray-700 font-semibold mt-2">
-        Ingredients:{" "}
-        {meal.ingredients ? meal.ingredients.join(", ") : "N/A"}
+        Ingredients: {meal.ingredients ? meal.ingredients.join(", ") : "N/A"}
       </p>
       <p className="text-gray-700 mt-2">Posted: {meal.postTime || "N/A"}</p>
       <p className="text-gray-700 mt-2">Rating: {meal.rating}</p>
@@ -170,7 +236,7 @@ const MealDetails = () => {
         <button
           onClick={handleLike}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-          disabled={hasLiked} // Disable button after first click
+          disabled={hasLiked}
         >
           {hasLiked ? `Liked (${likeCount})` : `Like (${likeCount})`}
         </button>
@@ -214,3 +280,5 @@ const MealDetails = () => {
 };
 
 export default MealDetails;
+
+
