@@ -17,7 +17,7 @@ const RequestedMeals = () => {
 
     const fetchRequestedMeals = async () => {
       try {
-        const response = await fetch('http://localhost:5000/meal-request');
+        const response = await fetch('http://localhost:5000/meal-requests');
         if (!response.ok) {
           throw new Error('Failed to fetch meal requests');
         }
@@ -42,7 +42,7 @@ const RequestedMeals = () => {
 
   const cancelRequest = async (mealRequestId) => {
     try {
-      const response = await fetch(`http://localhost:5000/meal-request/${mealRequestId}`, {
+      const response = await fetch(`http://localhost:5000/meal-requests/${mealRequestId}`, {
         method: 'DELETE',
       });
 
@@ -55,7 +55,10 @@ const RequestedMeals = () => {
       console.error('Error canceling meal request:', error);
     }
   };
+  
+  
 
+  
   if (loading || loadingMeals) {
     return <div>Loading...</div>;
   }

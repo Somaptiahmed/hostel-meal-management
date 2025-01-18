@@ -17,10 +17,8 @@
 //             <p className="text-lg text-gray-700 mb-4">Basic features with limited access</p>
 //             <p className="text-3xl font-bold text-blue-500 mb-6">$19.99 / month</p>
 //             <Link
-//               to={{
-//                 pathname: '/checkout',
-//                 state: { name: 'Silver Package', price: 19.99 }
-//               }}
+//               to={`/checkout/silver-package`}
+//               state={{ price: 19.99 }} // Pass the price dynamically
 //               className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 transition duration-300"
 //             >
 //               Upgrade Now
@@ -33,10 +31,8 @@
 //             <p className="text-lg text-gray-700 mb-4">Access to most features with extra perks</p>
 //             <p className="text-3xl font-bold text-yellow-500 mb-6">$39.99 / month</p>
 //             <Link
-//               to={{
-//                 pathname: '/checkout',
-//                 state: { name: 'Gold Package', price: 39.99 }
-//               }}
+//               to={`/checkout/gold-package`}
+//               state={{ price: 39.99 }}
 //               className="bg-yellow-500 text-white py-2 px-6 rounded-full hover:bg-yellow-600 transition duration-300"
 //             >
 //               Upgrade Now
@@ -49,10 +45,8 @@
 //             <p className="text-lg text-gray-700 mb-4">Premium features with full access</p>
 //             <p className="text-3xl font-bold text-gray-800 mb-6">$59.99 / month</p>
 //             <Link
-//               to={{
-//                 pathname: '/checkout',
-//                 state: { name: 'Platinum Package', price: 59.99 }
-//               }}
+//               to={`/checkout/platinum-package`}
+//               state={{ price: 59.99 }}
 //               className="bg-gray-800 text-white py-2 px-6 rounded-full hover:bg-gray-900 transition duration-300"
 //             >
 //               Upgrade Now
@@ -84,8 +78,8 @@ const Membership = () => {
             <p className="text-lg text-gray-700 mb-4">Basic features with limited access</p>
             <p className="text-3xl font-bold text-blue-500 mb-6">$19.99 / month</p>
             <Link
-              to={`/checkout/silver-package`}
-              state={{ price: 19.99 }} // Pass the price dynamically
+              to={`/checkout`}
+              state={{ price: 19.99, packageName: 'Silver Package' }} // Pass both price and packageName
               className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 transition duration-300"
             >
               Upgrade Now
@@ -98,8 +92,8 @@ const Membership = () => {
             <p className="text-lg text-gray-700 mb-4">Access to most features with extra perks</p>
             <p className="text-3xl font-bold text-yellow-500 mb-6">$39.99 / month</p>
             <Link
-              to={`/checkout/gold-package`}
-              state={{ price: 39.99 }}
+              to={`/checkout`}
+              state={{ price: 39.99, packageName: 'Gold Package' }} // Pass both price and packageName
               className="bg-yellow-500 text-white py-2 px-6 rounded-full hover:bg-yellow-600 transition duration-300"
             >
               Upgrade Now
@@ -112,8 +106,8 @@ const Membership = () => {
             <p className="text-lg text-gray-700 mb-4">Premium features with full access</p>
             <p className="text-3xl font-bold text-gray-800 mb-6">$59.99 / month</p>
             <Link
-              to={`/checkout/platinum-package`}
-              state={{ price: 59.99 }}
+              to={`/checkout`}
+              state={{ price: 59.99, packageName: 'Platinum Package' }} // Pass both price and packageName
               className="bg-gray-800 text-white py-2 px-6 rounded-full hover:bg-gray-900 transition duration-300"
             >
               Upgrade Now
@@ -126,3 +120,5 @@ const Membership = () => {
 };
 
 export default Membership;
+
+
