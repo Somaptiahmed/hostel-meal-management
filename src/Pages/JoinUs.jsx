@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 import { FaGoogle } from "react-icons/fa";
+import SocialLogin from "../Components/SocialLogin";
 
 const JoinUs = () => {
   const { login, handleGoogleLogin } = useContext(AuthContext);
@@ -64,15 +65,8 @@ const JoinUs = () => {
         >
           Login
         </button>
-
-        <button
-          type="button"
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 bg-blue-700 text-white py-3 rounded-lg"
-        >
-          <FaGoogle />
-          Login with Google
-        </button>
+        <div className="divider">OR</div>
+         <SocialLogin></SocialLogin>
 
         <p>
           Don't Have an Account?{" "}

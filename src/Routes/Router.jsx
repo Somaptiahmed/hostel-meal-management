@@ -15,6 +15,13 @@ import PaymentHistory from "../Components/PaymentHistory";
 import RequestedMeals from "../Components/RequestedMeals";
 
 import Checkout from "../Pages/Checkout";
+import AdminProfile from "../Components/AdminProfile";
+import AllMeals from "../Components/AllMeals";
+import AllReviews from "../Components/AllReviews";
+import ServeMeals from "../Components/ServeMeals";
+import ManageUsers from "../Components/ManageUsers";
+import UpcomingMeals from "../Components/UpcomingMeals";
+import AddMeal from "../Components/AddMeal";
 
 export const router = createBrowserRouter([
     {
@@ -38,10 +45,7 @@ export const router = createBrowserRouter([
                 path: 'checkout/:package_name',
                 element: <Checkout></Checkout>,
             },
-            // {
-            //     path: 'checkout',
-            //     element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
-            // },
+            
             
            ]
        
@@ -80,6 +84,38 @@ export const router = createBrowserRouter([
                 path: "requestedMeals",
                 element: <RequestedMeals></RequestedMeals>
             },
+
+            // admin routes
+            {
+                path: "profile",
+                element: <AdminProfile></AdminProfile>
+            },
+            {
+                path: "add",
+                element: <AddMeal></AddMeal>
+            },
+            {
+                path: "allMeals",
+                element: <AllMeals></AllMeals>
+            },
+            {
+                path: "allReview",
+                element: <AllReviews></AllReviews>
+            },
+            {
+                path: "serveMeals",
+                element: <ServeMeals></ServeMeals>
+            },
+            {
+                path: "users",
+                element: <ManageUsers></ManageUsers>
+            },
+            {
+                path: "upcoming",
+                element: <UpcomingMeals>
+                
+                </UpcomingMeals>
+            }
 
         ]
     },
