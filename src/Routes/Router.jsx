@@ -22,6 +22,7 @@ import ServeMeals from "../Components/ServeMeals";
 import ManageUsers from "../Components/ManageUsers";
 import UpcomingMeals from "../Components/UpcomingMeals";
 import AddMeal from "../Components/AddMeal";
+import Upcoming from "../Pages/Upcoming";
 
 export const router = createBrowserRouter([
     {
@@ -44,6 +45,11 @@ export const router = createBrowserRouter([
             {
                 path: 'checkout/:package_name',
                 element: <Checkout></Checkout>,
+            },
+           
+            {
+                path: 'upcoming-meals',
+                element: <Upcoming></Upcoming>,
             },
             
             
