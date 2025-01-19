@@ -34,12 +34,17 @@ const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY);
 
 const Checkout = () => {
   // Access location state (the package name and price)
+  
   const location = useLocation();
-  const packageName = location.state?.name; // Use optional chaining in case state is not available
-  const price = location.state?.price;
+  const packageName = location.state?.name || 'Unknown Package';
+  const price = location.state?.price || 0;
 
   return (
-    <div className="my-24">
+    <div className="my-24 text-center">
+
+<h1 className="text-4xl font-bold">Checkout</h1>
+      <p className="text-xl mt-4">Package: {packageName}</p>
+      <p className="text-xl mt-2">Price: ${price.toFixed(2)}</p>
       <div className="my-10">
         {/* Display the package name and price */}
         
@@ -54,3 +59,5 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+

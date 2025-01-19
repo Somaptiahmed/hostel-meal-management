@@ -22,7 +22,7 @@ const Dashboard = () => {
       <Navbar />
       <div className="flex flex-col lg:flex-row my-20">
         {/* Sidebar */}
-        <div className="lg:w-64 min-h-screen bg-orange-800 text-white p-4 space-y-4 pt-10">
+        <div className="lg:w-64  bg-orange-800 text-white p-4 space-y-4 pt-10">
           {isAdmin ? (
             <>
               <ul>

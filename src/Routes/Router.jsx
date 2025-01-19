@@ -41,16 +41,16 @@ export const router = createBrowserRouter([
                 path: 'meal-details/:id',
                 element: <PrivateRoute><MealDetails></MealDetails></PrivateRoute>,
             },
-           
-            {
-                path: 'checkout/:package_name',
-                element: <Checkout></Checkout>,
-            },
+          
            
             {
                 path: 'upcoming-meals',
                 element: <Upcoming></Upcoming>,
             },
+            {
+                path: "checkout",
+                element: <Checkout />,
+              },
             
             
            ]
@@ -86,6 +86,8 @@ export const router = createBrowserRouter([
                 path: "payment",
                 element: <PaymentHistory></PaymentHistory>
             },
+             
+           
             {
                 path: "requestedMeals",
                 element: <RequestedMeals></RequestedMeals>

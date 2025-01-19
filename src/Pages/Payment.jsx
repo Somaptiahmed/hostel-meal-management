@@ -20,7 +20,7 @@ const Payment = () => {
   useEffect(() => {
     if (location.state) {
       console.log("Location State:", location.state); // Debugging statement
-      setPackageName(location.state.packageName);
+      setPackageName(location.state.name);
       setPrice(location.state.price);
 
       // Fetch the client secret using the price passed from the Membership page

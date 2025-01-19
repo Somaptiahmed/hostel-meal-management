@@ -18,7 +18,7 @@ const Membership = () => {
             <p className="text-3xl font-bold text-blue-500 mb-6">$19.99 / month</p>
             <Link
               to={`/checkout`}
-              state={{ price: 19.99, packageName: 'Silver Package' }} // Pass both price and packageName
+              state={{ price: 19.99, name: 'Silver Package' }} // Pass both price and name
               className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 transition duration-300"
             >
               Upgrade Now
@@ -32,7 +32,7 @@ const Membership = () => {
             <p className="text-3xl font-bold text-yellow-500 mb-6">$39.99 / month</p>
             <Link
               to={`/checkout`}
-              state={{ price: 39.99, packageName: 'Gold Package' }} // Pass both price and packageName
+              state={{ price: 39.99, name: 'Gold Package' }} // Pass both price and name
               className="bg-yellow-500 text-white py-2 px-6 rounded-full hover:bg-yellow-600 transition duration-300"
             >
               Upgrade Now
@@ -46,7 +46,7 @@ const Membership = () => {
             <p className="text-3xl font-bold text-gray-800 mb-6">$59.99 / month</p>
             <Link
               to={`/checkout`}
-              state={{ price: 59.99, packageName: 'Platinum Package' }} // Pass both price and packageName
+              state={{ price: 59.99, name: 'Platinum Package' }} // Pass both price and name
               className="bg-gray-800 text-white py-2 px-6 rounded-full hover:bg-gray-900 transition duration-300"
             >
               Upgrade Now
@@ -59,5 +59,6 @@ const Membership = () => {
 };
 
 export default Membership;
+
 
 
