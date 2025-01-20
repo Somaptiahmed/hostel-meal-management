@@ -26,7 +26,7 @@ const Payment = () => {
       // Fetch the client secret using the price passed from the Membership page
       const fetchClientSecret = async () => {
         try {
-          const response = await fetch("http://localhost:5000/create-payment-intent", {
+          const response = await fetch("https://hotel-management-server-dun.vercel.app/create-payment-intent", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ price: location.state.price }), // Pass the price dynamically
@@ -110,7 +110,7 @@ const Payment = () => {
           status: 'pending',
         };
         try {
-          const res = await fetch("http://localhost:5000/payments", {
+          const res = await fetch("https://hotel-management-server-dun.vercel.app/payments", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payment),

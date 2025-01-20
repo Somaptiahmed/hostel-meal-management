@@ -13,7 +13,7 @@ const AllMeals = () => {
   // useEffect(() => {
   //   const fetchMeals = async () => {
   //     try {
-  //       const response = await fetch('http://localhost:5000/menu'); // Backend URL
+  //       const response = await fetch('https://hotel-management-server-dun.vercel.app/menu'); // Backend URL
   //       const data = await response.json();
   //       setMealsData(data); // Set the fetched data to state
   //     } catch (error) {

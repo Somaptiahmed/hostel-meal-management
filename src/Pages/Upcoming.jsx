@@ -5,7 +5,7 @@
 
 //   // Fetch the data from the API when the component mounts
 //   useEffect(() => {
-//     fetch('http://localhost:5000/upcoming')
+//     fetch('https://hotel-management-server-dun.vercel.app/upcoming')
 //       .then((response) => response.json())
 //       .then((data) => {
 //         setItems(data);
@@ -50,7 +50,7 @@ const Upcoming = () => {
 
   // Fetch the data from the API when the component mounts
   useEffect(() => {
-    fetch("http://localhost:5000/upcoming")
+    fetch("https://hotel-management-server-dun.vercel.app/upcoming")
       .then((response) => response.json())
       .then((data) => {
         setItems(data);

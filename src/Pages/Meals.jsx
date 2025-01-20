@@ -23,7 +23,7 @@ const Meals = () => {
     });
 
     try {
-      const response = await fetch(`http://localhost:5000/menu?${queryParams.toString()}`);
+      const response = await fetch(`https://hotel-management-server-dun.vercel.app/menu?${queryParams.toString()}`);
       const data = await response.json();
 
       if (data.length === 0) {

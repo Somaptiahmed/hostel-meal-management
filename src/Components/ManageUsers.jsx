@@ -22,7 +22,7 @@ const ManageUsers = () => {
   const fetchUsers = async (search = '') => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/users', {
+      const response = await axios.get('https://hotel-management-server-dun.vercel.app/users', {
         params: { search }, // Send the search term as a query parameter
       });
       setUsers(response.data); // Set the fetched users in the state
@@ -48,7 +48,7 @@ const ManageUsers = () => {
 
     try {
       // Change from PUT to PATCH as per your backend
-      const response = await axios.patch(`http://localhost:5000/users/admin/${userId}`);
+      const response = await axios.patch(`https://hotel-management-server-dun.vercel.app/users/admin/${userId}`);
       
       if (response.status === 200) {
         // Success: Update the users state with the new admin status

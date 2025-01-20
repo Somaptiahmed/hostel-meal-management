@@ -10,7 +10,7 @@ const AllMeals = () => {
     const fetchMeals = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/menu');
+        const response = await fetch('https://hotel-management-server-dun.vercel.app/menu');
         if (response.ok) {
           const data = await response.json();
           // Add reviews_count and mealRequestCount dynamically to the fetched meals
@@ -36,7 +36,7 @@ const AllMeals = () => {
   // Delete meal handler
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`http://localhost:5000/menu/${mealId}`, {
+      const response = await fetch(`https://hotel-management-server-dun.vercel.app/menu/${mealId}`, {
         method: 'DELETE',
       });
       if (response.ok) {

@@ -9,7 +9,7 @@
 //   const fetchMealRequests = async (query = '') => {
 //     setLoading(true);
 //     try {
-//       const response = await fetch(`http://localhost:5000/meal-requests?search=${query}`);
+//       const response = await fetch(`https://hotel-management-server-dun.vercel.app/meal-requests?search=${query}`);
 //       const data = await response.json();
 //       setMealRequests(data);
 //     } catch (error) {
@@ -22,7 +22,7 @@
 //   // Change status to "delivered"
 //   const handleServe = async (id) => {
 //     try {
-//       const response = await fetch(`http://localhost:5000/meal-requests/${id}`, {
+//       const response = await fetch(`https://hotel-management-server-dun.vercel.app/meal-requests/${id}`, {
 //         method: 'PATCH',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify({ status: 'delivered' }),
@@ -140,7 +140,7 @@ const ServeMeals = () => {
   const fetchMealRequests = async (query = '') => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/meal-requests?search=${query}`);
+      const response = await fetch(`https://hotel-management-server-dun.vercel.app/meal-requests?search=${query}`);
       const data = await response.json();
       setMealRequests(data);
     } catch (error) {
@@ -153,7 +153,7 @@ const ServeMeals = () => {
   // Change status to "delivered"
   const handleServe = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/meal-requests/${id}`, {
+      const response = await fetch(`https://hotel-management-server-dun.vercel.app/meal-requests/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'delivered' }),

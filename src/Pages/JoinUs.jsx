@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
-import { FaGoogle } from "react-icons/fa";
+
 import SocialLogin from "../Components/SocialLogin";
 
 const JoinUs = () => {

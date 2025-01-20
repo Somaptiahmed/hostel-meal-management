@@ -26,7 +26,7 @@ import Upcoming from "../Pages/Upcoming";
 
 export const router = createBrowserRouter([
     {
-        path:'/',
+        path: '/',
         element: <Main></Main>,
         children: [
             {
@@ -41,20 +41,20 @@ export const router = createBrowserRouter([
                 path: 'meal-details/:id',
                 element: <PrivateRoute><MealDetails></MealDetails></PrivateRoute>,
             },
-          
-           
+
+
             {
                 path: 'upcoming-meals',
                 element: <Upcoming></Upcoming>,
             },
             {
                 path: "checkout",
-                element: <Checkout />,
-              },
-            
-            
-           ]
-       
+                element: <PrivateRoute><Checkout /></PrivateRoute>,
+            },
+
+
+        ]
+
     },
     {
         path: 'auth',
@@ -86,8 +86,8 @@ export const router = createBrowserRouter([
                 path: "payment",
                 element: <PaymentHistory></PaymentHistory>
             },
-             
-           
+
+
             {
                 path: "requestedMeals",
                 element: <RequestedMeals></RequestedMeals>
@@ -121,7 +121,7 @@ export const router = createBrowserRouter([
             {
                 path: "upcoming",
                 element: <UpcomingMeals>
-                
+
                 </UpcomingMeals>
             }
 

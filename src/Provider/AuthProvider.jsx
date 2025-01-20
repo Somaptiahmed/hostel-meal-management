@@ -29,75 +29,44 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-//   const createUser = async (email, password, name) => {
-//     setLoading(true);
-//     try {
-//         const result = await createUserWithEmailAndPassword(auth, email, password);
-
-//         const user = result.user;
-//         const userInfo = {
-//             name,
-//             email: user.email,
-//             image: "https://i.ibb.co.com/j3SwDVp/faiza.webp", // Default image for new users
-//             password, // Save hashed password in backend for security
-//         };
-
-//         // Save user details in the backend
-//         await publicApi.post("/users", userInfo);
-
-//         // Store user details locally
-//         localStorage.setItem("userDetails", JSON.stringify(userInfo));
-
-//         setUser(user);
-//         setUserDetails(userInfo);
-//         return user;
-//     } catch (error) {
-//         console.error("Error during account creation:", error);
-//         throw error;
-//     } finally {
-//         setLoading(false);
-//     }
-// };
-
-
-  // Login user with email and password
+  
   const login = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Google Sign-In Logic
-  
+
   const googleSignIn = async () => {
     setLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-  
+
       // Check if user exists and log the info
       if (!user) {
         console.error("No user signed in.");
         return null; // Return null to indicate failure
       }
-  
+
       console.log("User signed in:", user);
-  
+
       // Optional: Get the ID token for API requests
       const idToken = await user.getIdToken();
       localStorage.setItem("access-token", idToken);
-  
+
       const userInfo = {
         displayName: user.displayName,
         email: user.email,
         profilePicture: user.photoURL || "https://i.ibb.co.com/j3SwDVp/faiza.webp",
       };
       localStorage.setItem("userDetails", JSON.stringify(userInfo));
-  
+
       setUser(user); // Set the authenticated user
       setUserDetails(userInfo); // Set custom user details
-  
+
       return user; // Ensure user is returned
-  
+
     } catch (error) {
       console.error("Error during Google sign-in:", error);
       alert("Failed to sign in. Please try again.");
@@ -106,48 +75,48 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  
 
-//   const googleSignIn = async () => {
-//     setLoading(true);
-//     try {
-//         const result = await signInWithPopup(auth, googleProvider);
-//         const user = result.user;
 
-//         if (!user) {
-//             console.error("No user signed in.");
-//             return null;
-//         }
+  //   const googleSignIn = async () => {
+  //     setLoading(true);
+  //     try {
+  //         const result = await signInWithPopup(auth, googleProvider);
+  //         const user = result.user;
 
-//         // Optional: Get the ID token for API requests
-//         const idToken = await user.getIdToken();
-//         localStorage.setItem("access-token", idToken);
+  //         if (!user) {
+  //             console.error("No user signed in.");
+  //             return null;
+  //         }
 
-//         // User data to send to the backend
-//         const userInfo = {
-//             name: user.displayName,
-//             email: user.email,
-//             image: user.photoURL || "https://via.placeholder.com/150",
-//             password: null, // Password not available for Google login
-//         };
+  //         // Optional: Get the ID token for API requests
+  //         const idToken = await user.getIdToken();
+  //         localStorage.setItem("access-token", idToken);
 
-//         // Save user details in the backend
-//         await publicApi.post("/users", userInfo);
+  //         // User data to send to the backend
+  //         const userInfo = {
+  //             name: user.displayName,
+  //             email: user.email,
+  //             image: user.photoURL || "https://via.placeholder.com/150",
+  //             password: null, // Password not available for Google login
+  //         };
 
-//         // Store user details locally
-//         localStorage.setItem("userDetails", JSON.stringify(userInfo));
+  //         // Save user details in the backend
+  //         await publicApi.post("/users", userInfo);
 
-//         setUser(user);
-//         setUserDetails(userInfo);
-//         return user;
-//     } catch (error) {
-//         console.error("Error during Google sign-in:", error);
-//         alert("Failed to sign in. Please try again.");
-//         return null;
-//     } finally {
-//         setLoading(false);
-//     }
-// };
+  //         // Store user details locally
+  //         localStorage.setItem("userDetails", JSON.stringify(userInfo));
+
+  //         setUser(user);
+  //         setUserDetails(userInfo);
+  //         return user;
+  //     } catch (error) {
+  //         console.error("Error during Google sign-in:", error);
+  //         alert("Failed to sign in. Please try again.");
+  //         return null;
+  //     } finally {
+  //         setLoading(false);
+  //     }
+  // };
 
 
   // Logout user
@@ -189,34 +158,34 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-//         if (currentUser) {
-//             setUser(currentUser);
+  //   useEffect(() => {
+  //     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //         if (currentUser) {
+  //             setUser(currentUser);
 
-//             try {
-//                 const { data: userInfo } = await publicApi.get(`/users/${currentUser.email}`);
-//                 setUserDetails(userInfo);
+  //             try {
+  //                 const { data: userInfo } = await publicApi.get(`/users/${currentUser.email}`);
+  //                 setUserDetails(userInfo);
 
-//                 // Save details in localStorage for offline access
-//                 localStorage.setItem("userDetails", JSON.stringify(userInfo));
-//             } catch (error) {
-//                 console.error("Error fetching user details:", error);
-//             }
-//         } else {
-//             setUser(null);
-//             setUserDetails(null);
-//             localStorage.removeItem("userDetails");
-//             localStorage.removeItem("access-token");
-//         }
+  //                 // Save details in localStorage for offline access
+  //                 localStorage.setItem("userDetails", JSON.stringify(userInfo));
+  //             } catch (error) {
+  //                 console.error("Error fetching user details:", error);
+  //             }
+  //         } else {
+  //             setUser(null);
+  //             setUserDetails(null);
+  //             localStorage.removeItem("userDetails");
+  //             localStorage.removeItem("access-token");
+  //         }
 
-//         setLoading(false);
-//     });
+  //         setLoading(false);
+  //     });
 
-//     return () => {
-//         unsubscribe();
-//     };
-// }, []);
+  //     return () => {
+  //         unsubscribe();
+  //     };
+  // }, []);
 
 
   // Auth info to be provided throughout the app

@@ -12,7 +12,7 @@
 //       // Fetch payment history for the logged-in user
 //       const fetchPaymentHistory = async () => {
 //         try {
-//           const response = await fetch(`http://localhost:5000/payments?email=${userDetails.email}`);
+//           const response = await fetch(`https://hotel-management-server-dun.vercel.app/payments?email=${userDetails.email}`);
 //           const data = await response.json();
 
 //           if (response.ok) {
@@ -74,7 +74,7 @@ const PaymentHistory = () => {
       // Fetch payment history for the logged-in user
       const fetchPaymentHistory = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/payments?email=${userDetails.email}`);
+          const response = await fetch(`https://hotel-management-server-dun.vercel.app/payments?email=${userDetails.email}`);
           
           if (response.ok) {
             const data = await response.json();

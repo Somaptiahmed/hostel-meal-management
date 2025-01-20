@@ -8,7 +8,7 @@ const useMenu = () => {
         
        const fetchMeals = async () => {
          try {
-           const response = await fetch('http://localhost:5000/menu'); 
+           const response = await fetch('https://hotel-management-server-dun.vercel.app/menu'); 
            const data = await response.json();
            setMealsData(data); 
          } catch (error) {

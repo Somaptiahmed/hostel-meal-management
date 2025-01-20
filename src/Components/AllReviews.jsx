@@ -8,7 +8,7 @@ const AllReviews = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch('http://localhost:5000/menu');
+        const response = await fetch('https://hotel-management-server-dun.vercel.app/menu');
         if (!response.ok) {
           throw new Error('Failed to fetch menu data');
         }
@@ -30,7 +30,7 @@ const handleEdit = async (mealId, reviewIndex) => {
     if (!newReviewText) return;
   
     try {
-      const response = await fetch(`http://localhost:5000/menu/${mealId}/reviews/${reviewIndex}`, {
+      const response = await fetch(`https://hotel-management-server-dun.vercel.app/menu/${mealId}/reviews/${reviewIndex}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const handleEdit = async (mealId, reviewIndex) => {
   // Delete Review Handler
   const handleDelete = async (mealId, reviewIndex) => {
     try {
-      const response = await fetch(`http://localhost:5000/menu/${mealId}/reviews/${reviewIndex}`, {
+      const response = await fetch(`https://hotel-management-server-dun.vercel.app/menu/${mealId}/reviews/${reviewIndex}`, {
         method: 'DELETE',
       });
       if (response.ok) {
