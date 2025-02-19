@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdOutlineCircleNotifications } from "react-icons/md";
@@ -25,42 +26,54 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar-container bg-nav">
-      <nav className="navbar flex justify-between items-center p-4 shadow-md bg-white">
+    <div className="navbar-container bg-primary fixed top-0 left-0 w-full shadow-md z-50">
+      <nav className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* Logo and Website Name */}
         <div className="navbar-logo flex items-center">
           <img src={logo} alt="Logo" className="w-16 h-12 pr-2" />
-          <span className="text-xl font-bold text-gray-700">Meal Planner</span>
+          <span className="text-xl font-bold text-white">Meal Planner</span>
         </div>
 
         {/* Navbar Links */}
-        <ul className="navbar-links flex space-x-6 text-gray-600 font-medium">
+        <ul className="navbar-links flex space-x-6 text-white font-medium">
           <li>
-            <Link to="/" className="hover:text-blue-500">
+            <Link to="/" className="hover:text-gray-300">
               Home
             </Link>
           </li>
           <li>
-            <Link to="/meals" className="hover:text-blue-500">
+            <Link to="/meals" className="hover:text-gray-300">
               Meals
             </Link>
           </li>
           <li>
-            <Link to="/upcoming-meals" className="hover:text-blue-500">
+            <Link to="/upcoming-meals" className="hover:text-gray-300">
               Upcoming Meals
             </Link>
           </li>
+          {userDetails && (
+            <>
+              <li>
+                <Link to="/dashboard" className="hover:text-gray-300">
+                  Dashboard
+                </Link>
+              </li>
+              
+            </>
+          )}
         </ul>
 
         {/* Right Section */}
         <div className="navbar-right flex items-center gap-4">
           {/* Notification Icon */}
-          <button
-            className="notification-icon text-gray-600 hover:text-blue-500"
-            title="Notifications"
-          >
-            <MdOutlineCircleNotifications size={24} />
-          </button>
+          {userDetails && (
+            <button
+              className="notification-icon text-white hover:text-gray-300"
+              title="Notifications"
+            >
+              <MdOutlineCircleNotifications size={24} />
+            </button>
+          )}
 
           {userDetails ? (
             // Profile Picture and Dropdown
@@ -95,7 +108,7 @@ const Navbar = () => {
             // Join Us Button
             <Link
               to="/auth/joinUs"
-              className="join-us-button bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              className="join-us-button bg-white text-primary px-4 py-2 rounded-md hover:bg-gray-200"
             >
               Join Us
             </Link>
@@ -107,5 +120,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
 
 
